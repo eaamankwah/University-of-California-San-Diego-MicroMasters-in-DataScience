@@ -1,0 +1,1172 @@
+0
+00:00:01,971 --> 00:00:04,514
+- Today we will look at a small case study
+
+1
+00:00:04,514 --> 00:00:07,014
+of logistic regression in use.
+
+2
+00:00:08,391 --> 00:00:10,005
+The problem we'll be solving
+
+3
+00:00:10,005 --> 00:00:13,198
+is a text classification problem.
+
+4
+00:00:13,198 --> 00:00:15,857
+So first we will see how a text document
+
+5
+00:00:15,857 --> 00:00:19,177
+can be converted into a vector of fixed length
+
+6
+00:00:19,177 --> 00:00:23,344
+so that methods like logistic regression can be run on it.
+
+7
+00:00:24,285 --> 00:00:26,561
+Then we'll start the learning process
+
+8
+00:00:26,561 --> 00:00:31,182
+and interpret the results that we get along the way.
+
+9
+00:00:31,182 --> 00:00:34,421
+So here's the problem we wanna solve.
+
+10
+00:00:34,421 --> 00:00:39,332
+We get a review of a product or movie or restaurant
+
+11
+00:00:39,332 --> 00:00:42,417
+and we wanna figure out if it's a positive review
+
+12
+00:00:42,417 --> 00:00:44,437
+or a negative review.
+
+13
+00:00:44,437 --> 00:00:46,922
+The data we have is collected from various websites
+
+14
+00:00:46,922 --> 00:00:49,952
+like Amazon and Yelp, and from each review,
+
+15
+00:00:49,952 --> 00:00:52,680
+just a single sentence has been extracted
+
+16
+00:00:52,680 --> 00:00:55,014
+and it's been labeled as plus or minus,
+
+17
+00:00:55,014 --> 00:00:56,488
+positive or negative.
+
+18
+00:00:56,488 --> 00:00:58,892
+Okay, so let's look at some of these examples.
+
+19
+00:00:58,892 --> 00:01:00,459
+So the first one.
+
+20
+00:01:00,459 --> 00:01:03,071
+Needless to say, I wasted my money.
+
+21
+00:01:03,071 --> 00:01:05,196
+Okay, so clearly that's a negative review
+
+22
+00:01:05,196 --> 00:01:08,470
+and the word that really tips you off over there is wasted.
+
+23
+00:01:08,470 --> 00:01:11,117
+Okay, so that's negative.
+
+24
+00:01:11,117 --> 00:01:12,023
+The second one.
+
+25
+00:01:12,023 --> 00:01:15,633
+He was very impressed when going from the original battery
+
+26
+00:01:15,633 --> 00:01:17,328
+to the extended battery.
+
+27
+00:01:17,328 --> 00:01:19,244
+So that's positive.
+
+28
+00:01:19,244 --> 00:01:21,984
+And what is the keyword over there?
+
+29
+00:01:21,984 --> 00:01:22,817
+Impressed.
+
+30
+00:01:26,338 --> 00:01:27,171
+The third one.
+
+31
+00:01:27,171 --> 00:01:29,681
+I had to jiggle the plug in order to get it
+
+32
+00:01:29,681 --> 00:01:32,746
+to lineup right to get decent volume.
+
+33
+00:01:32,746 --> 00:01:34,329
+So that's negative.
+
+34
+00:01:35,672 --> 00:01:39,979
+And in terms of words that really stick out,
+
+35
+00:01:39,979 --> 00:01:42,461
+there isn't really anything.
+
+36
+00:01:42,461 --> 00:01:47,314
+There's no single word in there that's completely negative.
+
+37
+00:01:47,314 --> 00:01:48,835
+So that one's a little bit tricky.
+
+38
+00:01:48,835 --> 00:01:50,832
+And let's look at the last one.
+
+39
+00:01:50,832 --> 00:01:52,573
+Will order from them again.
+
+40
+00:01:52,573 --> 00:01:55,476
+Okay, so that's positive.
+
+41
+00:01:55,476 --> 00:01:57,554
+And again, there's no single word
+
+42
+00:01:57,554 --> 00:02:00,363
+that really indicates that.
+
+43
+00:02:00,363 --> 00:02:01,863
+Again, not really.
+
+44
+00:02:02,915 --> 00:02:03,925
+There are probably lots of reviews
+
+45
+00:02:03,925 --> 00:02:07,117
+that say things like will never order from them again.
+
+46
+00:02:07,117 --> 00:02:09,776
+So that's also a tricky one.
+
+47
+00:02:09,776 --> 00:02:13,193
+So this is going to be a nontrivial task.
+
+48
+00:02:14,420 --> 00:02:17,984
+And because it's a little bit difficult,
+
+49
+00:02:17,984 --> 00:02:22,151
+logistic regression will help us quantify the uncertainty
+
+50
+00:02:23,511 --> 00:02:25,171
+in some of the predictions.
+
+51
+00:02:25,171 --> 00:02:28,015
+Since it outputs not just the prediction, plus or minus,
+
+52
+00:02:28,015 --> 00:02:31,626
+but also gives an accompanying probability.
+
+53
+00:02:31,626 --> 00:02:33,484
+Now how much data do we have?
+
+54
+00:02:33,484 --> 00:02:36,200
+About 2,500 training sentences,
+
+55
+00:02:36,200 --> 00:02:37,698
+which is not very much at all,
+
+56
+00:02:37,698 --> 00:02:41,865
+and then there's a separate test set of 500 sentences.
+
+57
+00:02:42,888 --> 00:02:45,790
+Now in order to run logistic regression
+
+58
+00:02:45,790 --> 00:02:50,016
+we need the data to be vectors of some fixed length.
+
+59
+00:02:50,016 --> 00:02:53,433
+How do we convert sentences into vectors?
+
+60
+00:02:54,602 --> 00:02:57,888
+Now there's actually a very standard way
+
+61
+00:02:57,888 --> 00:02:59,687
+of making documents into vectors,
+
+62
+00:02:59,687 --> 00:03:03,344
+and this is called the bag-of-words representation.
+
+63
+00:03:03,344 --> 00:03:05,202
+In our case you can think of each sentence
+
+64
+00:03:05,202 --> 00:03:09,022
+as being a mini document of some kind.
+
+65
+00:03:09,022 --> 00:03:10,891
+So here's how it works.
+
+66
+00:03:10,891 --> 00:03:14,626
+You start by fixing some vocabulary.
+
+67
+00:03:14,626 --> 00:03:17,482
+For instance, all the words in the documents,
+
+68
+00:03:17,482 --> 00:03:20,565
+or maybe the 5,000 most common words,
+
+69
+00:03:21,998 --> 00:03:25,731
+or in some other way you choose a list of words.
+
+70
+00:03:25,731 --> 00:03:27,519
+For concreteness, let's say that we choose
+
+71
+00:03:27,519 --> 00:03:29,852
+the 5,000 most common words.
+
+72
+00:03:30,921 --> 00:03:33,115
+Then each document is represented
+
+73
+00:03:33,115 --> 00:03:35,448
+as a 5,000 dimensional vector.
+
+74
+00:03:35,448 --> 00:03:36,691
+We have 5,000 dimensions
+
+75
+00:03:36,691 --> 00:03:41,544
+with one entry for each of the words in the vocabulary.
+
+76
+00:03:41,544 --> 00:03:45,236
+And that entry is literally how many times
+
+77
+00:03:45,236 --> 00:03:48,301
+that word occurs in the document.
+
+78
+00:03:48,301 --> 00:03:50,634
+So for example, let's say that the first word
+
+79
+00:03:50,634 --> 00:03:53,490
+in the vocabulary is despair.
+
+80
+00:03:53,490 --> 00:03:55,928
+So we have a document and what we do is we go through it
+
+81
+00:03:55,928 --> 00:03:59,411
+and we count how many times despair occurs in the document.
+
+82
+00:03:59,411 --> 00:04:00,549
+Oh, it occurs once?
+
+83
+00:04:00,549 --> 00:04:02,627
+So the entry for that is one.
+
+84
+00:04:02,627 --> 00:04:04,067
+Let's say the next words is evil.
+
+85
+00:04:04,067 --> 00:04:04,949
+So we go through the document
+
+86
+00:04:04,949 --> 00:04:07,504
+and see how many times evil occurs in the document.
+
+87
+00:04:07,504 --> 00:04:09,454
+Oh, two times, so the inquiry is two.
+
+88
+00:04:09,454 --> 00:04:10,882
+The third word is happiness.
+
+89
+00:04:10,882 --> 00:04:12,833
+That doesn't occur, so zero.
+
+90
+00:04:12,833 --> 00:04:13,666
+And so on.
+
+91
+00:04:13,666 --> 00:04:16,083
+And in this way, we convert this document
+
+92
+00:04:16,083 --> 00:04:18,750
+into a 5,000 dimensional vector.
+
+93
+00:04:20,983 --> 00:04:22,434
+Now one thing that's worth pointing out
+
+94
+00:04:22,434 --> 00:04:26,730
+is that this representation is extremely sparse.
+
+95
+00:04:26,730 --> 00:04:28,297
+If we're applying this to sentences
+
+96
+00:04:28,297 --> 00:04:31,130
+and we have a sentence of just 10 words,
+
+97
+00:04:31,130 --> 00:04:33,255
+then out of those 5,000 inquiries,
+
+98
+00:04:33,255 --> 00:04:36,796
+at most 10 of them are gonna be nonzero.
+
+99
+00:04:36,796 --> 00:04:40,406
+So it's a peculiarity of this particular way
+
+100
+00:04:40,406 --> 00:04:42,573
+of representing documents.
+
+101
+00:04:44,052 --> 00:04:47,175
+Okay so now we're ready to apply logistic regression.
+
+102
+00:04:47,175 --> 00:04:49,950
+We have two classes, positive and negative.
+
+103
+00:04:49,950 --> 00:04:54,164
+Let's code positive as plus one and negative as minus one.
+
+104
+00:04:54,164 --> 00:04:56,664
+We have our 2,500 data points.
+
+105
+00:04:58,657 --> 00:05:02,657
+Each of which is now a 5,000 dimensional vector.
+
+106
+00:05:04,091 --> 00:05:06,459
+And we need to find a linear function,
+
+107
+00:05:06,459 --> 00:05:08,444
+given by w and b,
+
+108
+00:05:08,444 --> 00:05:12,611
+that minimizes the logistic regression loss function.
+
+109
+00:05:13,843 --> 00:05:16,954
+As we saw last time, this is a nice loss function.
+
+110
+00:05:16,954 --> 00:05:21,587
+It is convex and it can be optimized quite easily
+
+111
+00:05:21,587 --> 00:05:23,491
+using local search methods.
+
+112
+00:05:23,491 --> 00:05:24,489
+There are many choices.
+
+113
+00:05:24,489 --> 00:05:26,765
+Gradient descents, stochastic gradient descent,
+
+114
+00:05:26,765 --> 00:05:29,284
+Newton-Raphson, and so on and so forth.
+
+115
+00:05:29,284 --> 00:05:32,129
+They all return the right answer.
+
+116
+00:05:32,129 --> 00:05:33,835
+So what we'll do today is use one of these,
+
+117
+00:05:33,835 --> 00:05:35,763
+stochastic gradient descent.
+
+118
+00:05:35,763 --> 00:05:37,179
+This is a very important method
+
+119
+00:05:37,179 --> 00:05:39,234
+and this is something that we'll cover
+
+120
+00:05:39,234 --> 00:05:41,808
+in more detail next week.
+
+121
+00:05:41,808 --> 00:05:44,815
+But for the time being, it's a local search method.
+
+122
+00:05:44,815 --> 00:05:48,322
+It starts with some solutions, some guess at w and b,
+
+123
+00:05:48,322 --> 00:05:51,270
+and then it tweaks it a little bit and it keeps tweaking it
+
+124
+00:05:51,270 --> 00:05:55,531
+and eventually it converges to the right answer.
+
+125
+00:05:55,531 --> 00:05:59,688
+So let's see what happens over training iterations.
+
+126
+00:05:59,688 --> 00:06:03,855
+Now it turns out that for this particular dataset,
+
+127
+00:06:05,365 --> 00:06:07,664
+300 iterations are needed
+
+128
+00:06:07,664 --> 00:06:11,331
+before the linear function, w, b, converges.
+
+129
+00:06:13,158 --> 00:06:17,593
+Each iteration involves a pass through the entire dataset.
+
+130
+00:06:17,593 --> 00:06:19,799
+And as these iterations proceed,
+
+131
+00:06:19,799 --> 00:06:21,795
+the loss function on the training set,
+
+132
+00:06:21,795 --> 00:06:24,617
+the training loss, keeps going down.
+
+133
+00:06:24,617 --> 00:06:27,844
+And in fact, during the first 50 or so iterations,
+
+134
+00:06:27,844 --> 00:06:30,387
+the loss function just plunges.
+
+135
+00:06:30,387 --> 00:06:33,336
+And after that it just tapers off gradually
+
+136
+00:06:33,336 --> 00:06:36,737
+until it finally grinds to a halt.
+
+137
+00:06:36,737 --> 00:06:39,234
+So that's how training goes.
+
+138
+00:06:39,234 --> 00:06:40,104
+And at the end we're left
+
+139
+00:06:40,104 --> 00:06:43,402
+with our final classifier, w and b.
+
+140
+00:06:43,402 --> 00:06:44,319
+How does it do?
+
+141
+00:06:44,319 --> 00:06:47,686
+What is its performance on the test set?
+
+142
+00:06:47,686 --> 00:06:51,273
+So it turns out that the test error is 21%.
+
+143
+00:06:51,273 --> 00:06:53,142
+That's not great but it's also not bad
+
+144
+00:06:53,142 --> 00:06:58,007
+considering the ambiguity and difficulty of these sentences.
+
+145
+00:06:58,007 --> 00:07:01,792
+So let's go ahead and look at some of the mistakes.
+
+146
+00:07:01,792 --> 00:07:02,883
+So let's see the first one.
+
+147
+00:07:02,883 --> 00:07:05,437
+Not much dialogue, not much music,
+
+148
+00:07:05,437 --> 00:07:08,003
+the whole film was shot as elaborately
+
+149
+00:07:08,003 --> 00:07:11,266
+and aesthetically like a sculpture.
+
+150
+00:07:11,266 --> 00:07:12,933
+And that's positive.
+
+151
+00:07:15,120 --> 00:07:17,117
+It starts off sounding a little bit negative
+
+152
+00:07:17,117 --> 00:07:21,227
+and there's really no word in there which indicates
+
+153
+00:07:21,227 --> 00:07:23,595
+that it would be a positive review.
+
+154
+00:07:23,595 --> 00:07:25,345
+It's not an easy one.
+
+155
+00:07:26,428 --> 00:07:29,273
+So that's one of the mistakes it made.
+
+156
+00:07:29,273 --> 00:07:31,190
+Let's look at this one.
+
+157
+00:07:33,383 --> 00:07:37,458
+The last 15 minutes of move are also not bad as well.
+
+158
+00:07:37,458 --> 00:07:40,186
+So it's got the double negative, not bad,
+
+159
+00:07:40,186 --> 00:07:42,136
+which is a little bit confusing.
+
+160
+00:07:42,136 --> 00:07:44,319
+And so the review is actually positive,
+
+161
+00:07:44,319 --> 00:07:48,486
+but the logistic regression model thought it was negative.
+
+162
+00:07:49,695 --> 00:07:50,890
+How about this one?
+
+163
+00:07:50,890 --> 00:07:55,116
+If you look for authentic Thai food, go elsewhere.
+
+164
+00:07:55,116 --> 00:07:56,336
+Okay, that's a difficult one.
+
+165
+00:07:56,336 --> 00:07:59,917
+It's got authentic Thai food in there which sounds good,
+
+166
+00:07:59,917 --> 00:08:01,995
+but then it says go elsewhere.
+
+167
+00:08:01,995 --> 00:08:04,224
+So that's difficult.
+
+168
+00:08:04,224 --> 00:08:08,288
+And the last one, waste your money on this game.
+
+169
+00:08:08,288 --> 00:08:10,946
+Okay, how are we supposed to get that right?
+
+170
+00:08:10,946 --> 00:08:13,279
+That's a very difficult one.
+
+171
+00:08:14,580 --> 00:08:18,888
+Okay, so we've been talking about using logistic regression
+
+172
+00:08:18,888 --> 00:08:22,324
+for classification, but actually it also outputs
+
+173
+00:08:22,324 --> 00:08:24,658
+a probability value, which we can think of
+
+174
+00:08:24,658 --> 00:08:27,804
+as a kind of level of confidence.
+
+175
+00:08:27,804 --> 00:08:29,255
+What do these probabilities,
+
+176
+00:08:29,255 --> 00:08:32,042
+what do these confidence levels look like
+
+177
+00:08:32,042 --> 00:08:34,542
+in this case for this dataset?
+
+178
+00:08:37,742 --> 00:08:41,492
+On any given sentence x, we get a probability
+
+179
+00:08:42,595 --> 00:08:44,345
+between zero and one.
+
+180
+00:08:45,962 --> 00:08:48,284
+And if the probability's above a half,
+
+181
+00:08:48,284 --> 00:08:50,385
+then we end up predicting plus,
+
+182
+00:08:50,385 --> 00:08:52,208
+and if the probability is less than a half,
+
+183
+00:08:52,208 --> 00:08:54,008
+we end up predicting minus.
+
+184
+00:08:54,008 --> 00:08:56,156
+Now when the probability is close to a half,
+
+185
+00:08:56,156 --> 00:08:59,337
+it means that we're really very uncertain.
+
+186
+00:08:59,337 --> 00:09:00,207
+Predicting one way,
+
+187
+00:09:00,207 --> 00:09:02,773
+we say plus or minus 'cause we're forced to,
+
+188
+00:09:02,773 --> 00:09:05,722
+but actually there's a lot of uncertainty in there.
+
+189
+00:09:05,722 --> 00:09:07,046
+The more confident predictions
+
+190
+00:09:07,046 --> 00:09:10,413
+are the ones that are closer to zero or one.
+
+191
+00:09:10,413 --> 00:09:14,070
+For example, suppose we look at the cases
+
+192
+00:09:14,070 --> 00:09:16,987
+where it is above 0.8 or below 0.2.
+
+193
+00:09:22,510 --> 00:09:26,864
+You can think of this as a sort of 80% confidence.
+
+194
+00:09:26,864 --> 00:09:28,814
+So we will call this, we'll describe this
+
+195
+00:09:28,814 --> 00:09:30,981
+as having a margin of 0.3.
+
+196
+00:09:33,447 --> 00:09:37,614
+What that means is that it's at least 0.3 away from a half.
+
+197
+00:09:39,345 --> 00:09:41,539
+And this is the formula for margin over here.
+
+198
+00:09:41,539 --> 00:09:45,206
+It's how far the probability is from a half.
+
+199
+00:09:46,148 --> 00:09:49,027
+Or we can look at 90% confidence
+
+200
+00:09:49,027 --> 00:09:53,021
+where the probabilities are between 0.1,
+
+201
+00:09:53,021 --> 00:09:56,104
+zero and 0.1, or between 0.9 and one.
+
+202
+00:09:58,629 --> 00:10:00,879
+So this is a margin of 0.4.
+
+203
+00:10:03,331 --> 00:10:05,699
+Or we can look at even larger margins,
+
+204
+00:10:05,699 --> 00:10:09,866
+like a margin of 0.49, which would be 99% confidence.
+
+205
+00:10:11,887 --> 00:10:16,079
+So for what fraction of points was the margin, say, 0.4?
+
+206
+00:10:16,079 --> 00:10:18,064
+For what fraction of these test points
+
+207
+00:10:18,064 --> 00:10:20,630
+was there 90% confidence?
+
+208
+00:10:20,630 --> 00:10:22,836
+Well that's what this graph shows over here.
+
+209
+00:10:22,836 --> 00:10:27,096
+If we want a margin of 0.4 we just go up over here
+
+210
+00:10:27,096 --> 00:10:31,263
+and we see that oh, roughly 75% of the points
+
+211
+00:10:33,227 --> 00:10:34,894
+had a margin of 0.4.
+
+212
+00:10:36,083 --> 00:10:38,730
+So three quarters of the test points
+
+213
+00:10:38,730 --> 00:10:41,397
+had 90% confidence or more.
+
+214
+00:10:44,128 --> 00:10:46,044
+Let's look at 99% confidence.
+
+215
+00:10:46,044 --> 00:10:47,877
+That's somewhere here.
+
+216
+00:10:50,166 --> 00:10:54,333
+It looks like roughly 55% of the data had 99% confidence.
+
+217
+00:10:56,656 --> 00:10:58,722
+That is a lot of confidence.
+
+218
+00:10:58,722 --> 00:11:00,870
+So this logistic regression model
+
+219
+00:11:00,870 --> 00:11:03,738
+is making very confident predictions
+
+220
+00:11:03,738 --> 00:11:07,766
+even though it did not get a whole lot of training data.
+
+221
+00:11:07,766 --> 00:11:11,005
+That's a little suspicious in and of itself.
+
+222
+00:11:11,005 --> 00:11:12,364
+And so it would be interesting to see
+
+223
+00:11:12,364 --> 00:11:16,021
+whether this confidence is at all warranted.
+
+224
+00:11:16,021 --> 00:11:20,398
+We know that the overall error rate was 21%,
+
+225
+00:11:20,398 --> 00:11:21,884
+but what if we just look at the points
+
+226
+00:11:21,884 --> 00:11:23,556
+on which it was confident.
+
+227
+00:11:23,556 --> 00:11:27,294
+Let's say, the points on which it was 90% confident.
+
+228
+00:11:27,294 --> 00:11:31,119
+What was the error rate on those points?
+
+229
+00:11:31,119 --> 00:11:34,092
+And that's what this graph over here shows.
+
+230
+00:11:34,092 --> 00:11:36,205
+So 90% confidence,
+
+231
+00:11:36,205 --> 00:11:38,979
+that's when the probability's either greater than 0.9
+
+232
+00:11:38,979 --> 00:11:43,112
+or less than 0.1 and that's a margin of 0.4.
+
+233
+00:11:43,112 --> 00:11:45,701
+That's this thing over here.
+
+234
+00:11:45,701 --> 00:11:47,478
+And if we look at those points,
+
+235
+00:11:47,478 --> 00:11:51,030
+the error rate was something like 13%.
+
+236
+00:11:51,030 --> 00:11:53,852
+Much less than 21%.
+
+237
+00:11:53,852 --> 00:11:57,852
+And if we look at the 99% confident points,
+
+238
+00:11:59,413 --> 00:12:03,743
+the error rate there is just a little above 10%.
+
+239
+00:12:03,743 --> 00:12:04,576
+Okay?
+
+240
+00:12:04,576 --> 00:12:08,743
+So on the test set as a whole, the error rate was 21%.
+
+241
+00:12:09,606 --> 00:12:13,773
+But more than half the points had a 99% confidence,
+
+242
+00:12:14,819 --> 00:12:18,395
+and on those points, the error rate was much smaller.
+
+243
+00:12:18,395 --> 00:12:21,312
+It was just a little over 10%.
+
+244
+00:12:26,124 --> 00:12:26,957
+This shows two things.
+
+245
+00:12:26,957 --> 00:12:30,037
+The first thing is that these confidence levels
+
+246
+00:12:30,037 --> 00:12:33,497
+have to be taken with a grain of salt.
+
+247
+00:12:33,497 --> 00:12:35,586
+When it's 99% confident, that doesn't mean
+
+248
+00:12:35,586 --> 00:12:39,975
+that it's going to be correct 99% of the time.
+
+249
+00:12:39,975 --> 00:12:42,390
+But the second thing is that these confidence values
+
+250
+00:12:42,390 --> 00:12:44,538
+are really informative.
+
+251
+00:12:44,538 --> 00:12:47,522
+By focusing on high confidence predictions,
+
+252
+00:12:47,522 --> 00:12:50,689
+we really can decrease the error rate.
+
+253
+00:12:52,282 --> 00:12:56,229
+Okay, now let's try and get some other information
+
+254
+00:12:56,229 --> 00:12:58,896
+about the model that we learned.
+
+255
+00:13:00,928 --> 00:13:03,262
+What is the basis for its predictions?
+
+256
+00:13:03,262 --> 00:13:06,582
+What words is it placing the greatest emphasis on?
+
+257
+00:13:06,582 --> 00:13:09,194
+How do we determine this?
+
+258
+00:13:09,194 --> 00:13:11,470
+Well, at the end we have this vector w,
+
+259
+00:13:11,470 --> 00:13:13,618
+which is 5,000 dimensional,
+
+260
+00:13:13,618 --> 00:13:16,276
+and there's an entry for each word.
+
+261
+00:13:16,276 --> 00:13:17,902
+So the most significant words,
+
+262
+00:13:17,902 --> 00:13:21,594
+the ones that have the greatest role in prediction,
+
+263
+00:13:21,594 --> 00:13:23,544
+are the ones with the largest coefficients.
+
+264
+00:13:23,544 --> 00:13:25,297
+Either the most positive coefficients
+
+265
+00:13:25,297 --> 00:13:27,654
+or the most negative coefficients.
+
+266
+00:13:27,654 --> 00:13:28,513
+What are these words?
+
+267
+00:13:28,513 --> 00:13:30,013
+Let's take a look.
+
+268
+00:13:31,126 --> 00:13:32,078
+So here they are.
+
+269
+00:13:32,078 --> 00:13:35,619
+On top are the words with the largest positive coefficients,
+
+270
+00:13:35,619 --> 00:13:36,559
+and the bottom are the ones
+
+271
+00:13:36,559 --> 00:13:38,962
+with the largest negative coefficients.
+
+272
+00:13:38,962 --> 00:13:40,646
+So what are the positive words?
+
+273
+00:13:40,646 --> 00:13:43,467
+Beautiful, fantastic, excellent, wonderful,
+
+274
+00:13:43,467 --> 00:13:46,741
+nice, awesome, perfect, and so on.
+
+275
+00:13:46,741 --> 00:13:50,119
+And the negative words, disappointing, stupid,
+
+276
+00:13:50,119 --> 00:13:54,286
+lazy, dirty, bad, fails, unfortunately, and so on.
+
+277
+00:13:55,878 --> 00:13:59,895
+Do these seem like words that are reasonable indicators
+
+278
+00:13:59,895 --> 00:14:03,169
+of positive or negative reviews?
+
+279
+00:14:03,169 --> 00:14:04,423
+They do.
+
+280
+00:14:04,423 --> 00:14:07,627
+It all seems quite reasonable.
+
+281
+00:14:07,627 --> 00:14:10,054
+Okay, well that's it for today.
+
+282
+00:14:10,054 --> 00:14:13,637
+And that's also it for logistic regression.
+
+283
+00:14:15,914 --> 00:14:18,004
+One of the discussions that we've been putting off
+
+284
+00:14:18,004 --> 00:14:21,150
+a little bit is how you actually optimize
+
+285
+00:14:21,150 --> 00:14:23,483
+all of these loss functions.
+
+286
+00:14:25,419 --> 00:14:27,242
+What are the techniques involved,
+
+287
+00:14:27,242 --> 00:14:29,573
+and the technology involved in this?
+
+288
+00:14:29,573 --> 00:14:33,183
+Things like convexity and stochastic gradient descent,
+
+289
+00:14:33,183 --> 00:14:36,864
+these really lie at the heart of modern machine learning.
+
+290
+00:14:36,864 --> 00:14:39,476
+So what we're gonna do next is to take a little bit of time
+
+291
+00:14:39,476 --> 00:14:42,959
+and to study these slowly and carefully.
+
+292
+00:14:42,959 --> 00:14:43,817
+See you next time.
+
