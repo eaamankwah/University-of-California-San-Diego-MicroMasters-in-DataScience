@@ -1,7 +1,7 @@
 # University-of-California-San-Diego-MicroMasters-in-DataScience
 
 # Overview
-[MicroMasters® Program in Data Science](https://www.edx.org/micromasters/uc-san-diegox-data-science) is a graduate level program for  data science taught by for professors from the University of California, San Diego, California [edX platform](https://www.edx.org).
+[MicroMasters® Program in Data Science](https://www.edx.org/micromasters/uc-san-diegox-data-science) is a graduate level program for data science taught by four professors from the University of California, San Diego, California [edX platform](https://www.edx.org).
 
 This course cover:
 - How to load and clean real-world data
@@ -13,14 +13,21 @@ This course cover:
 ## Content
 
 **Week: 1 - 10**
+
 Python for Data Science
+
 **Week: 1 - 10**
+
 Probability and Statistics in Data Science using Python
+
 **Week: 1 - 10**
+
 Machine Learning Fundamentals
+
 **Week: 1 - 10**
+
 Big Data Analytics Using Spark
 
 
 ## Certificate of Completion
-You can see the [Certificate of Completion](https://github.com/eaamankwah/Certificates/blob/main/UCSanDeigoX_DataScience-MicroMasters.pdf)
+You can see the [MicroMasters Certificate](https://github.com/eaamankwah/Certificates/blob/main/UCSanDeigoX_DataScience-MicroMasters.pdf)
