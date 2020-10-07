@@ -1,0 +1,938 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{mClassification\_CoverType}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{Problem Statement}\label{problem-statement}
+
+In this programming assignment, your task is to classify geographical
+locations according to their predicted tree cover using Gradient
+Boosting and Random Forest classifiers. You are expected to fill in
+functions that would complete this task. All of the necessary helper
+code is included in this notebook. However, we advise you to go over the
+slides, lecture material, the EdX videos and the corresponding notebooks
+before you attempt this Programming Assignment. You can find information
+about the dataset to be used in the following links:
+
+\begin{itemize}
+\item
+  \textbf{Dataset:} http://archive.ics.uci.edu/ml/datasets/Covertype
+\item
+  \textbf{Dataset description:}
+  http://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.info
+\end{itemize}
+
+    \subsection{Notebook Setup}\label{notebook-setup}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} To time the entire solution}
+        \PY{k+kn}{import} \PY{n+nn}{time}
+        \PY{n}{start\PYZus{}nb} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{from} \PY{n+nn}{pyspark} \PY{k}{import} \PY{n}{SparkContext}
+        \PY{n}{sc}\PY{o}{=}\PY{n}{SparkContext}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kn}{from} \PY{n+nn}{pyspark}\PY{n+nn}{.}\PY{n+nn}{mllib}\PY{n+nn}{.}\PY{n+nn}{linalg} \PY{k}{import} \PY{n}{Vectors}
+        \PY{k+kn}{from} \PY{n+nn}{pyspark}\PY{n+nn}{.}\PY{n+nn}{mllib}\PY{n+nn}{.}\PY{n+nn}{regression} \PY{k}{import} \PY{n}{LabeledPoint}
+        
+        \PY{k+kn}{from} \PY{n+nn}{pyspark}\PY{n+nn}{.}\PY{n+nn}{mllib}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k}{import} \PY{n}{GradientBoostedTrees}\PY{p}{,} \PY{n}{GradientBoostedTreesModel}
+        \PY{k+kn}{from} \PY{n+nn}{pyspark}\PY{n+nn}{.}\PY{n+nn}{mllib}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k}{import} \PY{n}{RandomForest}\PY{p}{,} \PY{n}{RandomForestModel}
+        \PY{k+kn}{from} \PY{n+nn}{pyspark}\PY{n+nn}{.}\PY{n+nn}{mllib}\PY{n+nn}{.}\PY{n+nn}{util} \PY{k}{import} \PY{n}{MLUtils}
+        
+        \PY{k+kn}{import} \PY{n+nn}{os}
+        \PY{k+kn}{import} \PY{n+nn}{pickle}
+        \PY{k+kn}{from} \PY{n+nn}{os}\PY{n+nn}{.}\PY{n+nn}{path} \PY{k}{import} \PY{n}{exists}
+        
+        \PY{o}{\PYZpc{}}\PY{k}{config} IPCompleter.greedy=True
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{}define a dictionary of cover types}
+        \PY{n}{CoverTypes}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+m+mf}{1.0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Spruce/Fir}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+m+mf}{2.0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lodgepole Pine}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+m+mf}{3.0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ponderosa Pine}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+m+mf}{4.0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cottonwood/Willow}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+m+mf}{5.0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Aspen}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+m+mf}{6.0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Douglas\PYZhy{}fir}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+m+mf}{7.0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Krummholz}\PY{l+s+s1}{\PYZsq{}} \PY{p}{\PYZcb{}}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tree Cover Types:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{CoverTypes}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Tree Cover Types: \{1.0: 'Spruce/Fir', 2.0: 'Lodgepole Pine', 3.0: 'Ponderosa Pine', 4.0: 'Cottonwood/Willow', 5.0: 'Aspen', 6.0: 'Douglas-fir', 7.0: 'Krummholz'\}
+
+    \end{Verbatim}
+
+    \subsection{Collecting Data}\label{collecting-data}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{} Break up features that are made out of several binary features.}
+        \PY{k}{def} \PY{n+nf}{get\PYZus{}columns}\PY{p}{(}\PY{n}{cols\PYZus{}txt}\PY{p}{)}\PY{p}{:}
+            \PY{n}{cols}\PY{o}{=}\PY{p}{[}\PY{n}{a}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{a} \PY{o+ow}{in} \PY{n}{cols\PYZus{}txt}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+            \PY{n}{colDict}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{a}\PY{p}{:}\PY{p}{[}\PY{n}{a}\PY{p}{]} \PY{k}{for} \PY{n}{a} \PY{o+ow}{in} \PY{n}{cols}\PY{p}{\PYZcb{}}
+            \PY{n}{colDict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Soil\PYZus{}Type (40 binary columns)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ST\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{40}\PY{p}{)}\PY{p}{]}
+            \PY{n}{colDict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wilderness\PYZus{}Area (4 binarycolumns)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{WA\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{]}
+            \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{p}{]}
+            \PY{k}{for} \PY{n}{item} \PY{o+ow}{in} \PY{n}{cols}\PY{p}{:}
+                \PY{n}{columns} \PY{o}{=} \PY{n}{columns} \PY{o}{+} \PY{n}{colDict}\PY{p}{[}\PY{n}{item}\PY{p}{]}
+            \PY{k}{return} \PY{n}{columns}
+            \PY{c+c1}{\PYZsh{}print(columns)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{} Define the feature names}
+        \PY{n}{cols\PYZus{}txt}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+s2}{Elevation, Aspect, Slope, Horizontal\PYZus{}Distance\PYZus{}To\PYZus{}Hydrology,}
+        \PY{l+s+s2}{Vertical\PYZus{}Distance\PYZus{}To\PYZus{}Hydrology, Horizontal\PYZus{}Distance\PYZus{}To\PYZus{}Roadways,}
+        \PY{l+s+s2}{Hillshade\PYZus{}9am, Hillshade\PYZus{}Noon, Hillshade\PYZus{}3pm,}
+        \PY{l+s+s2}{Horizontal\PYZus{}Distance\PYZus{}To\PYZus{}Fire\PYZus{}Points, Wilderness\PYZus{}Area (4 binarycolumns), }
+        \PY{l+s+s2}{Soil\PYZus{}Type (40 binary columns), Cover\PYZus{}Type}
+        \PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{n}{columns} \PY{o}{=} \PY{n}{get\PYZus{}columns}\PY{p}{(}\PY{n}{cols\PYZus{}txt}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{} Read the file into an RDD}
+        \PY{c+c1}{\PYZsh{} When using sc.textRead you need to use an absolute path.}
+        \PY{c+c1}{\PYZsh{} If doing this on a real cluster, you need the file to be available on all nodes, ideally in HDFS.}
+        \PY{n}{path}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/Users/user/Desktop/PSDS/edX/UCSandiago\PYZus{}MicroMasters/BigDataAUSpark/wk7\PYZus{}8/startercode/covtype/covtype.data}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{inputRDD}\PY{o}{=}\PY{n}{sc}\PY{o}{.}\PY{n}{textFile}\PY{p}{(}\PY{n}{path}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsection{Helper Functions}\label{helper-functions}
+
+Here are some helper functions that you will have to fill up.
+
+    \subsubsection{label\_RDD}\label{label_rdd}
+
+    The function label\_RDD takes an RDD as input and returns an RDD of
+labeled points
+
+Input: RDD consisting of a string with comma separated values (InputRDD)
+
+\textbf{Example Input}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{'2596,51,3,258,0,510,221,232,148,6279,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,5'}
+\end{Highlighting}
+\end{Shaded}
+
+Output: RDD of the type LabeledPoint with the first element being the
+label and second element being a DenseVector that contains all the
+elements of the InputRDD(Except the last value which is the label).
+
+\textbf{Example Output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{LabeledPoint(}\FloatTok{5.0}\NormalTok{, [}\FloatTok{2596.0}\NormalTok{,}\FloatTok{51.0}\NormalTok{,}\FloatTok{3.0}\NormalTok{,}\FloatTok{258.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{510.0}\NormalTok{,}\FloatTok{221.0}\NormalTok{,}\FloatTok{232.0}\NormalTok{,}\FloatTok{148.0}\NormalTok{,}\FloatTok{6279.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Insert your answer in this cell. DO NOT CHANGE THE NAME OF THE FUNCTION.}
+        \PY{k}{def} \PY{n+nf}{label\PYZus{}RDD}\PY{p}{(}\PY{n}{inputRDD}\PY{p}{)}\PY{p}{:}
+            \PY{n}{Data}\PY{o}{=}\PY{n}{inputRDD}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{line}\PY{p}{:} \PY{p}{[}\PY{n+nb}{float}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PYZbs{}
+                 \PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{a}\PY{p}{:} \PY{n}{LabeledPoint}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} YOUR CODE HERE}
+            
+            \PY{k}{return} \PY{n}{Data}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{Data} \PY{o}{=} \PY{n}{label\PYZus{}RDD}\PY{p}{(}\PY{n}{inputRDD}\PY{p}{)}
+        \PY{n}{Data}\PY{o}{.}\PY{n}{cache}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}9}]:} PythonRDD[2] at RDD at PythonRDD.scala:49
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k}{assert} \PY{n}{Data}\PY{o}{.}\PY{n}{first}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{label} \PY{o}{==} \PY{l+m+mf}{5.0}
+         \PY{k}{assert} \PY{n}{Data}\PY{o}{.}\PY{n}{first}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{features} \PY{o}{==} \PY{n}{Vectors}\PY{o}{.}\PY{n}{dense}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2596.0}\PY{p}{,} \PY{l+m+mf}{51.0}\PY{p}{,} \PY{l+m+mf}{3.0}\PY{p}{,} \PY{l+m+mf}{258.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{510.0}\PY{p}{,} \PY{l+m+mf}{221.0}\PY{p}{,} \PY{l+m+mf}{232.0}\PY{p}{,} \PY{l+m+mf}{148.0}\PY{p}{,} \PY{l+m+mf}{6279.0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsubsection{count\_examples}\label{count_examples}
+
+    The function count\_examples takes an RDD as input and returns count of
+number of labels belonging to each class
+
+Input: RDD obtained as the output of the labelRDD
+
+\textbf{Example Input}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[LabeledPoint(}\FloatTok{5.0}\NormalTok{, [}\FloatTok{2596.0}\NormalTok{,}\FloatTok{51.0}\NormalTok{,}\FloatTok{3.0}\NormalTok{,}\FloatTok{258.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{510.0}\NormalTok{,}\FloatTok{221.0}\NormalTok{,}\FloatTok{232.0}\NormalTok{,}\FloatTok{148.0}\NormalTok{,}\FloatTok{6279.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{]),}
+\NormalTok{ LabeledPoint(}\FloatTok{5.0}\NormalTok{, [}\FloatTok{2590.0}\NormalTok{,}\FloatTok{56.0}\NormalTok{,}\FloatTok{2.0}\NormalTok{,}\FloatTok{212.0}\NormalTok{,}\OperatorTok{-}\FloatTok{6.0}\NormalTok{,}\FloatTok{390.0}\NormalTok{,}\FloatTok{220.0}\NormalTok{,}\FloatTok{235.0}\NormalTok{,}\FloatTok{151.0}\NormalTok{,}\FloatTok{6225.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{]),}
+\NormalTok{ LabeledPoint(}\FloatTok{2.0}\NormalTok{, [}\FloatTok{2804.0}\NormalTok{,}\FloatTok{139.0}\NormalTok{,}\FloatTok{9.0}\NormalTok{,}\FloatTok{268.0}\NormalTok{,}\FloatTok{65.0}\NormalTok{,}\FloatTok{3180.0}\NormalTok{,}\FloatTok{234.0}\NormalTok{,}\FloatTok{238.0}\NormalTok{,}\FloatTok{135.0}\NormalTok{,}\FloatTok{6121.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{])]}
+\end{Highlighting}
+\end{Shaded}
+
+Output: list of tuples (label, count)
+
+\textbf{NOTE: The outputs need to be sorted in descending order by
+counts}
+
+\textbf{Example Output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[(}\FloatTok{5.0}\NormalTok{, }\DecValTok{2}\NormalTok{), (}\FloatTok{2.0}\NormalTok{, }\DecValTok{1}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Insert your answer in this cell. DO NOT CHANGE THE NAME OF THE FUNCTION.}
+         \PY{k}{def} \PY{n+nf}{count\PYZus{}examples}\PY{p}{(}\PY{n}{Data}\PY{p}{)}\PY{p}{:}
+             \PY{n}{counts}\PY{o}{=}\PY{n}{Data}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{sample}\PY{p}{:} \PY{p}{(}\PY{n}{sample}\PY{o}{.}\PY{n}{label}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{reduceByKey}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{:} \PY{n}{x}\PY{o}{+}\PY{n}{y}\PY{p}{)}\PY{o}{.}\PY{n}{collect}\PY{p}{(}\PY{p}{)}
+             \PY{n}{counts}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{reverse}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+             \PY{k}{return} \PY{n}{counts}
+             \PY{c+c1}{\PYZsh{}return list(zip(Data.take(1),counts))}
+             
+             \PY{c+c1}{\PYZsh{} YOUR CODE HERE}
+               
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{counts} \PY{o}{=} \PY{n}{count\PYZus{}examples}\PY{p}{(}\PY{n}{Data}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{counts3} \PY{o}{=} \PY{n}{count\PYZus{}examples}\PY{p}{(}\PY{n}{sc}\PY{o}{.}\PY{n}{parallelize}\PY{p}{(}\PY{n}{Data}\PY{o}{.}\PY{n}{take}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{k}{assert} \PY{n+nb}{type}\PY{p}{(}\PY{n}{counts3}\PY{p}{)} \PY{o}{==} \PY{n+nb}{list}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return type}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n+nb}{type}\PY{p}{(}\PY{n}{counts3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{tuple}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return type}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n+nb}{type}\PY{p}{(}\PY{n}{counts3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{float}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return type}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n+nb}{type}\PY{p}{(}\PY{n}{counts3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{int}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return type}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{k}{assert} \PY{n}{counts3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{l+m+mf}{5.0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return value}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n}{counts3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return value}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{} Hidden Tests Here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{total}\PY{o}{=}\PY{n}{Data}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total data size=}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{total}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{              type (label):   percent of total}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZpc{}20s}\PY{l+s+s1}{ (}\PY{l+s+si}{\PYZpc{}3.1f}\PY{l+s+s1}{):}\PY{l+s+se}{\PYZbs{}t}\PY{l+s+si}{\PYZpc{}4.2f}\PY{l+s+s1}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{CoverTypes}\PY{p}{[}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{l+m+mf}{100.0}\PY{o}{*}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{total}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{a} \PY{o+ow}{in} \PY{n}{counts}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+total data size= 581012
+              type (label):   percent of total
+---------------------------------------------------------
+      Lodgepole Pine (2.0):	48.76
+          Spruce/Fir (1.0):	36.46
+      Ponderosa Pine (3.0):	6.15
+           Krummholz (7.0):	3.53
+         Douglas-fir (6.0):	2.99
+               Aspen (5.0):	1.63
+   Cottonwood/Willow (4.0):	0.47
+
+    \end{Verbatim}
+
+    \subsubsection{labels\_to\_binary (Making the problem
+binary)}\label{labels_to_binary-making-the-problem-binary}
+
+The implementation of BoostedGradientTrees in MLLib supports only binary
+problems. the \texttt{CovType} problem has 7 classes. To make the
+problem binary we choose the \texttt{Lodgepole\ Pine} (label = 2.0). We
+therefore transform the dataset to a new dataset where the label is
+\texttt{1.0} is the class is \texttt{Lodgepole\ Pine} and is
+\texttt{0.0} otherwise.
+
+    The function labels\_to\_binary takes an RDD as input and returns an RDD
+with binary labels such that:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ label }\OperatorTok{==} \DecValTok{2}\NormalTok{:      }\CommentTok{#Since label 2 has the highest count value}
+\NormalTok{    new_label }\OperatorTok{=} \DecValTok{1}
+    
+\ControlFlowTok{else}\NormalTok{:}
+\NormalTok{    new_label }\OperatorTok{=} \DecValTok{0}
+\end{Highlighting}
+\end{Shaded}
+
+Input: Labelled RDD (Output from label\_RDD function)
+
+\textbf{Example Input}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{LabeledPoint(}\FloatTok{5.0}\NormalTok{, [}\FloatTok{2596.0}\NormalTok{,}\FloatTok{51.0}\NormalTok{,}\FloatTok{3.0}\NormalTok{,}\FloatTok{258.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{510.0}\NormalTok{,}\FloatTok{221.0}\NormalTok{,}\FloatTok{232.0}\NormalTok{,}\FloatTok{148.0}\NormalTok{,}\FloatTok{6279.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+Output: The same RDD with label of all entries as 0 except for label =
+2.0 where label becomes 1.0
+
+\textbf{Example Output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{LabeledPoint(}\FloatTok{0.0}\NormalTok{, [}\FloatTok{2596.0}\NormalTok{,}\FloatTok{51.0}\NormalTok{,}\FloatTok{3.0}\NormalTok{,}\FloatTok{258.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{510.0}\NormalTok{,}\FloatTok{221.0}\NormalTok{,}\FloatTok{232.0}\NormalTok{,}\FloatTok{148.0}\NormalTok{,}\FloatTok{6279.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{,}\FloatTok{0.0}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Insert your answer in this cell. DO NOT CHANGE THE NAME OF THE FUNCTION.}
+         \PY{k}{def} \PY{n+nf}{labels\PYZus{}to\PYZus{}binary}\PY{p}{(}\PY{n}{Data}\PY{p}{)}\PY{p}{:}
+             \PY{n}{Label}\PY{o}{=}\PY{l+m+mf}{2.0}
+             \PY{n}{mapping} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{Label}\PY{p}{:} \PY{l+m+mf}{1.0}\PY{p}{\PYZcb{}}
+             \PY{n}{Data}\PY{o}{=}\PY{n}{inputRDD}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{line}\PY{p}{:} \PY{p}{[}\PY{n+nb}{float}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PYZbs{}
+                 \PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{a}\PY{p}{:} \PY{n}{LabeledPoint}\PY{p}{(}\PY{n}{mapping}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{)}\PY{p}{,} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} YOUR CODE HERE       }
+             \PY{k}{return} \PY{n}{Data}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{n}{Data} \PY{o}{=} \PY{n}{labels\PYZus{}to\PYZus{}binary}\PY{p}{(}\PY{n}{Data}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{k}{assert} \PY{n}{Data}\PY{o}{.}\PY{n}{first}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{label} \PY{o}{==} \PY{l+m+mf}{0.0}
+\end{Verbatim}
+
+
+    \subsubsection{Reducing data size}\label{reducing-data-size}
+
+For this assignment, we will use only 10\% of the original data.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{n}{trainingData} \PY{o}{=} \PY{n}{sc}\PY{o}{.}\PY{n}{parallelize}\PY{p}{(}\PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{training10p.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{testData} \PY{o}{=} \PY{n}{sc}\PY{o}{.}\PY{n}{parallelize}\PY{p}{(}\PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test10p.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        FileNotFoundError                         Traceback (most recent call last)
+
+        <ipython-input-21-ca0b04801da5> in <module>()
+    ----> 1 trainingData = sc.parallelize(pickle.load(open('training10p.pkl', 'rb')))
+          2 testData = sc.parallelize(pickle.load(open('test10p.pkl', 'rb')))
+
+
+        FileNotFoundError: [Errno 2] No such file or directory: 'training10p.pkl'
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sizes: Data1=}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{, trainingData=}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{, testData=}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{trainingData}\PY{o}{.}\PY{n}{cache}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{n}{testData}\PY{o}{.}\PY{n}{cache}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{trainingData}\PY{o}{.}\PY{n}{cache}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{testData}\PY{o}{.}\PY{n}{cache}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Sizes: Data1=58100, trainingData=40682, testData=17418
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{n}{counts} \PY{o}{=} \PY{n}{count\PYZus{}examples}\PY{p}{(}\PY{n}{testData}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsection{Gradient Boosted Trees}\label{gradient-boosted-trees}
+
+    \begin{itemize}
+\item
+  Following
+  \href{http://spark.apache.org/docs/latest/mllib-ensembles.html\#classification}{this
+  example} from the mllib documentation
+\item
+  \href{http://spark.apache.org/docs/latest/api/python/pyspark.mllib.html\#pyspark.mllib.tree.GradientBoostedTrees}{pyspark.mllib.trees
+  documentation}
+\end{itemize}
+
+\subsubsection{Main classes and methods}\label{main-classes-and-methods}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{GradientBoostedTrees} is the class that implements the
+  learning trainClassifier,
+\item
+  It's main method is \texttt{trainClassifier(trainingData)} which takes
+  as input a training set and generates an instance of
+  \texttt{GradientBoostedTreesModel}
+\item
+  The main parameter from train Classifier are:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{data} -- Training dataset: RDD of LabeledPoint. Labels
+    should take values \{0, 1\}.
+  \item
+    categoricalFeaturesInfo -- Map storing arity of categorical
+    features. E.g., an entry (n -\textgreater{} k) indicates that
+    feature n is categorical with k categories indexed from 0: \{0, 1,
+    ..., k-1\}.
+  \item
+    \textbf{loss} -- Loss function used for minimization during gradient
+    boosting. Supported: \{``logLoss'' (default), ``leastSquaresError'',
+    ``leastAbsoluteError''\}.
+  \item
+    \textbf{numIterations} -- Number of iterations of boosting.
+    (default: 100)
+  \item
+    \textbf{learningRate} -- Learning rate for shrinking the
+    contribution of each estimator. The learning rate should be between
+    in the interval (0, 1{]}. (default: 0.1)
+  \item
+    \textbf{maxDepth} -- Maximum depth of the tree. E.g., depth 0 means
+    1 leaf node; depth 1 means 1 internal node + 2 leaf nodes. (default:
+    3)
+  \item
+    \textbf{maxBins} -- maximum number of bins used for splitting
+    features (default: 32) DecisionTree requires maxBins \textgreater{}=
+    max categories
+  \end{itemize}
+\item
+  \texttt{GradientBoostedTreesModel} represents the output of the
+  boosting process: a linear combination of classification trees. The
+  methods supported by this class are:
+\item
+  \texttt{save(sc,\ path)} : save the tree to a given filename, sc is
+  the Spark Context.
+\item
+  \texttt{load(sc,path)} : The counterpart to save - load classifier
+  from file.
+\item
+  \texttt{predict(X)} : predict on a single datapoint (the
+  \texttt{.features} field of a \texttt{LabeledPont}) or an RDD of
+  datapoints.
+\item
+  \texttt{toDebugString()} : print the classifier in a human readable
+  format.
+\end{itemize}
+
+    \subsubsection{Example}\label{example}
+
+The function Classify\_GB takes as inputs:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{trainingData}: Training data (Type: RDD)
+\item
+  \textbf{testData}: Test data (Type: RDD)
+\item
+  \textbf{maxDepth}: Depth of tree (Type: int)
+\end{enumerate}
+
+The function trains a GradientBoostedTrees classifier and returns the
+error
+
+\textbf{Output}: error (Type: float)
+
+\textbf{Example Output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{error}\OperatorTok{=}\FloatTok{0.3}
+\end{Highlighting}
+\end{Shaded}
+
+    \subsubsection{Definition}\label{definition}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Insert your answer in this cell. DO NOT CHANGE THE NAME OF THE FUNCTION.}
+         \PY{k}{def} \PY{n+nf}{Classify\PYZus{}GB}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,} \PY{n}{testData}\PY{p}{,} \PY{n}{maxDepth}\PY{p}{)}\PY{p}{:}
+             \PY{n}{model} \PY{o}{=} \PY{n}{GradientBoostedTrees}\PY{o}{.}\PY{n}{trainClassifier}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,}
+                                                      \PY{n}{categoricalFeaturesInfo}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{n}{numIterations}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} Evaluate model on test instances and compute test error}
+             \PY{n}{predictions} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{testData}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{o}{.}\PY{n}{features}\PY{p}{)}\PY{p}{)}
+             \PY{n}{labelsAndPredictions} \PY{o}{=} \PY{n}{testData}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{lp}\PY{p}{:} \PY{n}{lp}\PY{o}{.}\PY{n}{label}\PY{p}{)}\PY{o}{.}\PY{n}{zip}\PY{p}{(}\PY{n}{predictions}\PY{p}{)}
+             \PY{n}{testErr} \PY{o}{=} \PY{n}{labelsAndPredictions}\PY{o}{.}\PY{n}{filter}\PY{p}{(}
+                 \PY{k}{lambda} \PY{n}{lp}\PY{p}{:} \PY{n}{lp}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=} \PY{n}{lp}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n+nb}{float}\PY{p}{(}\PY{n}{testData}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+             \PY{k}{return} \PY{n}{testErr}
+             \PY{c+c1}{\PYZsh{} YOUR CODE HERE}
+             
+\end{Verbatim}
+
+
+    \subsubsection{Test cases}\label{test-cases}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{n}{visible\PYZus{}results}\PY{o}{=}\PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GradientBoostingResultsVisible.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+         \PY{k}{assert} \PY{n}{Classify\PYZus{}GB}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,} \PY{n}{testData}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{visible\PYZus{}results}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B\PYZus{}10p\PYZus{}1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} 
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}55}]:} \PY{k}{assert} \PY{n}{Classify\PYZus{}GB}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,} \PY{n}{testData}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{visible\PYZus{}results}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B\PYZus{}10p\PYZus{}3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{c+c1}{\PYZsh{}Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}57}]:} \PY{c+c1}{\PYZsh{}Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \subsection{Random Forests}\label{random-forests}
+
+    \subsubsection{Introduction}\label{introduction}
+
+\begin{itemize}
+\item
+  Following
+  \href{http://spark.apache.org/docs/latest/mllib-ensembles.html\#classification}{this
+  example} from the mllib documentation
+\item
+  \href{http://spark.apache.org/docs/latest/api/python/pyspark.mllib.html\#pyspark.mllib.tree.RandomForest}{pyspark.mllib.trees.RandomForest
+  documentation}
+\end{itemize}
+
+\textbf{trainClassifier}\texttt{(data,\ numClasses,\ categoricalFeaturesInfo,\ numTrees,\ featureSubsetStrategy=\textquotesingle{}auto\textquotesingle{},\ impurity=\textquotesingle{}gini\textquotesingle{},\ maxDepth=4,\ maxBins=32,\ seed=None)}\\
+Method to train a decision tree model for binary or multiclass
+classification.
+
+\textbf{Parameters:}\\
+* \emph{data} -- Training dataset: RDD of LabeledPoint. Labels should
+take values \{0, 1, ..., numClasses-1\}.\\
+* \emph{numClasses} -- number of classes for classification.\\
+* \emph{categoricalFeaturesInfo} -- Map storing arity of categorical
+features. E.g., an entry (n -\textgreater{} k) indicates that feature n
+is categorical with k categories indexed from 0: \{0, 1, ..., k-1\}.\\
+* \emph{numTrees} -- Number of trees in the random forest.\\
+* \emph{featureSubsetStrategy} -- Number of features to consider for
+splits at each node. Supported: ``auto'' (default), ``all'', ``sqrt'',
+``log2'', ``onethird''. If ``auto'' is set, this parameter is set based
+on numTrees: if numTrees == 1, set to ``all''; if numTrees
+\textgreater{} 1 (forest) set to ``sqrt''. * \emph{impurity} --
+Criterion used for information gain calculation. Supported values:
+``gini'' (recommended) or ``entropy''.\\
+* \emph{maxDepth} -- Maximum depth of the tree. E.g., depth 0 means 1
+leaf node; depth 1 means 1 internal node + 2 leaf nodes. (default: 4)\\
+* \emph{maxBins} -- maximum number of bins used for splitting features
+(default: 32) * \emph{seed} -- Random seed for bootstrapping and
+choosing feature subsets.
+
+\textbf{Returns:}\\
+RandomForestModel that can be used for prediction
+
+    \subsubsection{Example}\label{example}
+
+The function Classify\_RF takes as inputs:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{trainingData}: Training data (Type: RDD)
+\item
+  \textbf{testData}: Test data (Type: RDD)
+\item
+  \textbf{maxDepth}: Depth of tree (Type: int)
+\end{enumerate}
+
+The function trains a RandomForest classifier and returns the error in
+classification
+
+\textbf{Output}: error (Type: float)
+
+\textbf{Example Output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{error}\OperatorTok{=}\FloatTok{0.3}
+\end{Highlighting}
+\end{Shaded}
+
+Note: You are allowed to alter the number of trees parameter
+
+    \subsubsection{Definition}\label{definition}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}58}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Insert your answer in this cell. DO NOT CHANGE THE NAME OF THE FUNCTION.}
+         \PY{k}{def} \PY{n+nf}{Classify\PYZus{}RF}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,} \PY{n}{testData}\PY{p}{,} \PY{n}{depth}\PY{p}{)}\PY{p}{:}
+             \PY{n}{model} \PY{o}{=} \PY{n}{RandomForest}\PY{o}{.}\PY{n}{trainClassifier}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,} \PY{n}{numClasses}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{categoricalFeaturesInfo}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+                                              \PY{n}{numTrees}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{featureSubsetStrategy}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{auto}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                              \PY{n}{impurity}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gini}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{maxDepth}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{maxBins}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} Evaluate model on test instances and compute test error}
+             \PY{n}{predictions} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{testData}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{o}{.}\PY{n}{features}\PY{p}{)}\PY{p}{)}
+             \PY{n}{labelsAndPredictions} \PY{o}{=} \PY{n}{testData}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{lp}\PY{p}{:} \PY{n}{lp}\PY{o}{.}\PY{n}{label}\PY{p}{)}\PY{o}{.}\PY{n}{zip}\PY{p}{(}\PY{n}{predictions}\PY{p}{)}
+             \PY{n}{testErr} \PY{o}{=} \PY{n}{labelsAndPredictions}\PY{o}{.}\PY{n}{filter}\PY{p}{(}
+                 \PY{k}{lambda} \PY{n}{lp}\PY{p}{:} \PY{n}{lp}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=} \PY{n}{lp}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n+nb}{float}\PY{p}{(}\PY{n}{testData}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+             \PY{k}{return} \PY{n}{testErr}
+             \PY{c+c1}{\PYZsh{} YOUR CODE HERE}
+             
+\end{Verbatim}
+
+
+    \subsubsection{Test cases}\label{test-cases}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{n}{visible\PYZus{}results\PYZus{}rf}\PY{o}{=}\PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RandomForestResultsVisible.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+         \PY{k}{assert} \PY{n}{Classify\PYZus{}RF}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,} \PY{n}{testData}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{visible\PYZus{}results\PYZus{}rf}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RF\PYZus{}10p\PYZus{}3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} 
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{k}{assert} \PY{n}{Classify\PYZus{}RF}\PY{p}{(}\PY{n}{trainingData}\PY{p}{,} \PY{n}{testData}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{visible\PYZus{}results\PYZus{}rf}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RF\PYZus{}10p\PYZus{}6}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}61}]:} \PY{c+c1}{\PYZsh{}Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}62}]:} \PY{c+c1}{\PYZsh{}Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}63}]:} \PY{n}{end\PYZus{}nb} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total time taken: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{end\PYZus{}nb} \PY{o}{\PYZhy{}} \PY{n}{start\PYZus{}nb}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Total time taken:  7099.109666347504
+
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
