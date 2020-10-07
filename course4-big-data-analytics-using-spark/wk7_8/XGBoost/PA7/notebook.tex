@@ -1,0 +1,791 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{XGBoost\_Whales}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{Problem Statment}\label{problem-statment}
+
+You have been provided a dataset that consists of echo-location clicks
+of two types of whales, namely, Gervais and Cuviers. In this assignment,
+your task is to classify the different types whales using Gradient
+Boosting with the help of the XGBoost library. You are expected to fill
+in functions that would complete this task. We use XGBoost here instead
+of GradientBoostedTrees in Spark because XGBoost running on a single
+machine is much faster than Spark running on 10 machines.
+
+The data files were preprocessed on PySpark (10 nodes) cluster. The code
+for the same can be found in Data\_Processing\_Whales.ipynb. The
+preprocessed data is a numpy array with \texttt{4175} rows (for the 10mb
+file) with following columns (zero-indexed): * Col 0-9: projections on
+first 10 eigen vectors * Col 10: rmse * Col 11: peak2peak * Col 12:
+label
+(\texttt{0\ if\ row.species==u\textquotesingle{}Gervais\textquotesingle{}\ else\ 1})
+
+You can also refer to XGBoost\_Whales.ipynb under for more details on
+the XGBoost Analysis before you attempt this assignment.
+
+Both Data\_Processing\_Whales.ipynb and XGBoost\_Whales.ipynb can be
+found under XGBoost directory that was uploaded in edX as a part of
+"Notebooks for weeks 7 \& 8".
+
+    \subsection{XGBoost - Theory}\label{xgboost---theory}
+
+A brief overview of gradient boosting in XGBoost can be found here:
+
+\begin{itemize}
+\tightlist
+\item
+  http://xgboost.readthedocs.io/en/latest/model.html
+\item
+  http://xgboost.readthedocs.io/en/latest/python/python\_intro.html
+\end{itemize}
+
+    Use the XGBoost API for training and predicting scores:
+
+\begin{itemize}
+\tightlist
+\item
+  http://xgboost.readthedocs.io/en/latest/python/python\_api.html
+\end{itemize}
+
+\paragraph{Main API}\label{main-api}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{xgboost.train} is the learning API that trains the Gradient
+  Boosting Model,
+\item
+  The main parameters are:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{plst} -- XGBoost parameter list
+  \item
+    \textbf{dtrain} -- Data to be trained
+  \item
+    \textbf{num\_round} -- Number of iterations of boosting. (default:
+    100)
+  \item
+    \textbf{evallist} -- List of items to be evaluated during training
+  \item
+    \textbf{verbose\_eval} - This can be used to control how much
+    information the train function prints. You might want to set to
+    \textbf{False} to avoid printing logs.
+  \end{itemize}
+\item
+  \texttt{bst.predict} is the API that makes score predictions
+\item
+  The main parameters are:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{dtest} -- Test Data
+  \item
+    \textbf{dtrain} -- Data to be trained
+  \item
+    \textbf{ntree\_limit} -- Limit number of trees in the prediction
+    (Use: ntree\_limit=bst.best\_ntree\_limit)
+  \item
+    \textbf{output\_margin} - Whether to output the raw untransformed
+    margin value (Use: output\_margin=True)
+  \end{itemize}
+\end{itemize}
+
+    \subsection{Notebook Setup}\label{notebook-setup}
+
+    \subsubsection{Importing Required
+Libraries}\label{importing-required-libraries}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{xgboost} \PY{k}{as} \PY{n+nn}{xgb}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{import} \PY{n+nn}{pickle}
+        \PY{k+kn}{import} \PY{n+nn}{random}
+\end{Verbatim}
+
+
+    \subsubsection{Loading Data}\label{loading-data}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data/X\PYZus{}train.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+            \PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+        
+        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data/X\PYZus{}test.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+            \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+        
+        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data/y\PYZus{}train.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+            \PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+        
+        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data/y\PYZus{}test.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+            \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsubsection{Setting Parameters for XG
+Boost}\label{setting-parameters-for-xg-boost}
+
+\begin{itemize}
+\tightlist
+\item
+  Maximum Depth of the Tree = 3 \emph{(maximum depth of each decision
+  trees)}
+\item
+  Step size shrinkage used in update to prevents overfitting = 0.3
+  \emph{(how to weigh trees in subsequent iterations)}
+\item
+  Evaluation Criterion= Maximize Loglikelihood according to the logistic
+  regression \emph{(logitboost)}
+\item
+  Maximum Number of Iterations = 1000 \emph{(total number trees for
+  boosting)}
+\item
+  Early Stop if score on Validation does not improve for 5 iterations
+\end{itemize}
+
+\href{https://xgboost.readthedocs.io/en/latest//parameter.html}{Full
+description of options}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{}You can change this cell if you wish to, but you aren\PYZsq{}t expected to}
+        \PY{k}{def} \PY{n+nf}{xgboost\PYZus{}plst}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{param} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+            \PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=} \PY{l+m+mi}{3}   \PY{c+c1}{\PYZsh{} depth of tree}
+            \PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.3}      \PY{c+c1}{\PYZsh{} shrinkage parameter}
+            \PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{silent}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}     \PY{c+c1}{\PYZsh{} not silent}
+            \PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{objective}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary:logistic}\PY{l+s+s1}{\PYZsq{}}
+            \PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{nthread}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{7} \PY{c+c1}{\PYZsh{} Number of threads used}
+            \PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eval\PYZus{}metric}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{logloss}\PY{l+s+s1}{\PYZsq{}}
+        
+            \PY{n}{plst} \PY{o}{=} \PY{n}{param}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}
+            \PY{k}{return} \PY{n}{plst}
+\end{Verbatim}
+
+
+    \subsection{Exercises}\label{exercises}
+
+    \subsubsection{Computing the score
+ranges}\label{computing-the-score-ranges}
+
+The function calc\_stats takes the xgboost margin scores as input and
+returns two numpy arrays min\_scr, max\_scr which are calculated as
+follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{min\_scr}: mean - (3 \(\times\) std)
+\item
+  \textbf{max\_scr}: mean + (3 \(\times\) std)
+\end{enumerate}
+
+Here the input margin scores, represents the processed XGBoost margin
+scores obtained from the bootstrap\_pred function. Each row represents
+the various scores for a specific example in an iteration and your
+calc\_stats function is supposed to compute the \textbf{min\_scr} and
+\textbf{max\_scr} as defined for each example. So in the example below,
+we take a scenario where we have 3 examples which have 4 values each
+(From 4 bootstrap iterations).
+
+\textbf{Example Input}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[[}\OperatorTok{-}\FloatTok{0.22} \OperatorTok{-}\FloatTok{0.19} \OperatorTok{-}\FloatTok{0.17} \OperatorTok{-}\FloatTok{0.13}\NormalTok{][}\OperatorTok{-}\FloatTok{0.1} \OperatorTok{-}\FloatTok{0.05} \FloatTok{0.02} \FloatTok{0.10}\NormalTok{][}\FloatTok{0.03} \FloatTok{0.11} \FloatTok{0.12} \FloatTok{0.15}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+Output: min\_scr (numpy array), max\_scr (numpy array)
+
+\textbf{Example Output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(array([}\OperatorTok{-}\FloatTok{0.28} \OperatorTok{-}\FloatTok{0.23} \OperatorTok{-}\FloatTok{0.03}\NormalTok{]),}
+\NormalTok{ array([}\OperatorTok{-}\FloatTok{0.08}  \FloatTok{0.22}  \FloatTok{0.24}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Note}: Ensure you round the values in the numpy arrays to two
+decimal places
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{k}{def} \PY{n+nf}{calc\PYZus{}stats}\PY{p}{(}\PY{n}{margin\PYZus{}scores}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{}}
+            \PY{c+c1}{\PYZsh{} YOUR CODE HERE}
+            \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{margin\PYZus{}score} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.22}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.19}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.17}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.13}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.02}\PY{p}{,} \PY{l+m+mf}{0.10}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mf}{0.03}\PY{p}{,} \PY{l+m+mf}{0.11}\PY{p}{,} \PY{l+m+mf}{0.12}\PY{p}{,} \PY{l+m+mf}{0.15}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+        \PY{n}{min\PYZus{}score}\PY{p}{,} \PY{n}{max\PYZus{}score} \PY{o}{=} \PY{n}{calc\PYZus{}stats}\PY{p}{(}\PY{n}{margin\PYZus{}score}\PY{p}{)}
+        \PY{k}{assert} \PY{n+nb}{type}\PY{p}{(}\PY{n}{min\PYZus{}score}\PY{p}{)} \PY{o}{==} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect Return type}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{n+nb}{type}\PY{p}{(}\PY{n}{max\PYZus{}score}\PY{p}{)} \PY{o}{==} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect Return type}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{k}{assert} \PY{p}{(}\PY{n}{min\PYZus{}score} \PY{o}{==} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.28}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.23}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.03}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{all}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Incorrect return value}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{k}{assert} \PY{p}{(}\PY{n}{max\PYZus{}score} \PY{o}{==} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.08}\PY{p}{,}  \PY{l+m+mf}{0.22}\PY{p}{,}  \PY{l+m+mf}{0.24}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{all}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Incorrect return value}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{\PYZsh{} Hidden Tests Here}
+        \PY{c+c1}{\PYZsh{}}
+        \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+        \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{} Hidden Tests Here}
+        \PY{c+c1}{\PYZsh{}}
+        \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+        \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \subsubsection{Calculating predictions}\label{calculating-predictions}
+
+    Based on the ranges for each of the examples, i.e, (min\_scr, max\_scr),
+we can predict whether it's a Gervais or a Cuvier. Since all our scores
+will be between -1 and +1, we use 0 as the margin line. All examples
+which are on the left side of the margin, can be classified as Cuvier's
+and all which are on the right side can be classified as Gervais.
+However, since we take margin scores from a set of bootstraps for each
+example, we use the minimum and maximum score arrays to predict to
+determine the classification.
+
+The function predict takes the minimum score array and maximum score
+array and returns predictions as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  If respective minimum score and maximum score values are less than 0,
+  predict -1 (\textbf{Cuvier's})
+\item
+  If respective minimum score value is less than 0 and maximum score
+  value is greater than 0, predict 0 (\textbf{Unsure})
+\item
+  If respective minimum score and maximum score values are greater than
+  0, predict 1 (\textbf{Gervais})
+\end{enumerate}
+
+\textbf{Example Input}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{min_scr (numpy array) }\OperatorTok{=}\NormalTok{ [}\OperatorTok{-}\FloatTok{0.78} \OperatorTok{-}\FloatTok{0.68} \OperatorTok{-}\FloatTok{0.6} \OperatorTok{-}\FloatTok{0.53} \OperatorTok{-}\FloatTok{0.47} \OperatorTok{-}\FloatTok{0.42} \OperatorTok{-}\FloatTok{0.32} \OperatorTok{-}\FloatTok{0.21} \OperatorTok{-}\FloatTok{0.07} \FloatTok{0.22}\NormalTok{]}
+
+\NormalTok{max_scr (numpy array) }\OperatorTok{=}\NormalTok{ [}\OperatorTok{-}\FloatTok{0.49} \OperatorTok{-}\FloatTok{0.39} \OperatorTok{-}\FloatTok{0.33} \OperatorTok{-}\FloatTok{0.25} \OperatorTok{-}\FloatTok{0.2} \OperatorTok{-}\FloatTok{0.11} \OperatorTok{-}\FloatTok{0.04} \FloatTok{0.1} \FloatTok{0.3} \FloatTok{0.51}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Output: pred (numpy array of predictions)
+
+\textbf{Example Output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\OperatorTok{-}\DecValTok{1} \OperatorTok{-}\DecValTok{1} \OperatorTok{-}\DecValTok{1} \OperatorTok{-}\DecValTok{1} \OperatorTok{-}\DecValTok{1} \OperatorTok{-}\DecValTok{1} \OperatorTok{-}\DecValTok{1}  \DecValTok{0}  \DecValTok{0}  \DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k}{def} \PY{n+nf}{predict}\PY{p}{(}\PY{n}{min\PYZus{}scr}\PY{p}{,} \PY{n}{max\PYZus{}scr}\PY{p}{)}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{}}
+             \PY{c+c1}{\PYZsh{} YOUR CODE HERE}
+             \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{max\PYZus{}s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.49}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.39}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.33}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.11}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.04}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{l+m+mf}{0.51}\PY{p}{]}\PY{p}{)}
+         \PY{n}{min\PYZus{}s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.78}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.68}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.6}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.53}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.47}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.42}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.32}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.21}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.07}\PY{p}{,} \PY{l+m+mf}{0.22}\PY{p}{]}\PY{p}{)}
+         \PY{n}{pred} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{min\PYZus{}s}\PY{p}{,} \PY{n}{max\PYZus{}s}\PY{p}{)}
+         \PY{n}{true\PYZus{}pred} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{k}{assert} \PY{n+nb}{type}\PY{p}{(}\PY{n}{pred}\PY{p}{)} \PY{o}{==} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return type}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{k}{assert} \PY{p}{(}\PY{n}{pred} \PY{o}{==} \PY{n}{true\PYZus{}pred}\PY{p}{)}\PY{o}{.}\PY{n}{all}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incorrect return value}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \subsubsection{Calculating scores}\label{calculating-scores}
+
+    The function bootstrap\_pred takes as input:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Training set}
+\item
+  \textbf{Test set}
+\item
+  \textbf{n\_bootstrap} Number of bootstrap samples that run XGBoost and
+  trains one part of the sample set.
+\item
+  \textbf{minR, maxR} two numbers such that \(0 < minR < maxR < 1\) that
+  define the fractions of the \texttt{n\_bootstrap} scores that define
+  the range.
+\item
+  \textbf{bootstrap\_size} - Number of bootstrap samples on which you
+  will run XGBoost.
+\item
+  \textbf{num\_round} - Number of iterations for running xgboost
+\item
+  \textbf{plst} - Parameter List
+\end{enumerate}
+
+The output should be a confidence interval for each example in the test
+set. Together with a prediction that is
+\texttt{Gervais\ /\ Cuviers\ /\ Unsure}. The prediction \texttt{unsure}
+is to be output if the confidence interval contains the point 0. After
+generating the confidence intervals, the function predict can be used to
+make predictions.
+
+    \textbf{Procedure}
+
+Repeat the given procedure for n\_bootstrap number of iterations:
+
+For \textbf{n\_bootstrap} iterations: * Sample \textbf{boostrap\_size}
+indices from the training set \textbf{with replacmennt} * Create train
+and test data matrices (dtrain, dtest) using xgb.DMatrix(X\_sample,
+label=y\_sample) * Initialise the evallist parameter {[}(dtrain,
+'train'), (dtest, 'eval'){]} * Train the model using the XGBoost train
+API and make score predictions using bst.predict object returned by XGB
+train API. Ensure you set \textbf{output\_margin=True} to get raw
+untransformed output scores. * Normalize them by dividing them with the
+normalizing factor as max(scores) - min(scores) and round these values
+to a precision of two decimal places
+
+Then: * For each individual example, remove scores below the minRth
+percentile and greater than maxRth percentile (sort for each example if
+necessary) * Call the calc\_stats function to compute min\_scr and
+max\_scr with the filtered margin scores as parameter * Return the
+min\_scr and max\_scr computed by the \textbf{calc\_stat} function using
+the margin scores.
+
+\textbf{Note}: You can experiment by changing \textbf{n\_bootstraps},
+but it takes about 200 iterations to get consistent values.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{k}{def} \PY{n+nf}{bootstrap\PYZus{}pred}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{n\PYZus{}bootstrap}\PY{p}{,} \PY{n}{minR}\PY{p}{,} \PY{n}{maxR}\PY{p}{,} \PY{n}{bootstrap\PYZus{}size}\PY{p}{,} \PYZbs{}
+                            \PY{n}{num\PYZus{}round}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{plst}\PY{o}{=}\PY{n}{xgboost\PYZus{}plst}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{}}
+             \PY{c+c1}{\PYZsh{} YOUR CODE HERE}
+             \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{k}{def} \PY{n+nf}{process}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{n\PYZus{}bootstrap}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+             \PY{n}{min\PYZus{}scr}\PY{p}{,} \PY{n}{max\PYZus{}scr} \PY{o}{=} \PY{n}{bootstrap\PYZus{}pred}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{n\PYZus{}bootstrap}\PY{o}{=}\PY{n}{n\PYZus{}bootstrap}\PY{p}{,} \PYZbs{}
+                                                     \PY{n}{minR}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{n}{maxR}\PY{o}{=}\PY{l+m+mf}{0.9}\PY{p}{,} \PY{n}{bootstrap\PYZus{}size}\PY{o}{=}\PY{n+nb}{len}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{p}{)}
+             \PY{n}{pred} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{min\PYZus{}scr}\PY{p}{,} \PY{n}{max\PYZus{}scr}\PY{p}{)}
+             \PY{k}{return} \PY{n}{min\PYZus{}scr}\PY{p}{,} \PY{n}{max\PYZus{}scr}\PY{p}{,} \PY{n}{pred}
+\end{Verbatim}
+
+
+    \paragraph{Tests}\label{tests}
+
+How we test the function: 1. We have computed the average mid-point of
+the range of values and verify that this midpoint is present in the
+range computed by your function 2. We check that the length of the
+interval(max\_scr-min\_scr) is not more than twice the average length of
+the interval
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{n}{sample\PYZus{}indices} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data/vis\PYZus{}indices.npy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{X\PYZus{}test\PYZus{}samp} \PY{o}{=} \PY{n}{X\PYZus{}test}\PY{p}{[}\PY{n}{sample\PYZus{}indices}\PY{p}{]}
+         \PY{n}{y\PYZus{}test\PYZus{}samp} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{[}\PY{n}{sample\PYZus{}indices}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{int}\PY{p}{)}
+         \PY{n}{midpt} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data/vis\PYZus{}midpt.npy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{avg\PYZus{}length} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data/vis\PYZus{}avg\PYZus{}length.npy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{min\PYZus{}scr}\PY{p}{,} \PY{n}{max\PYZus{}scr}\PY{p}{,} \PY{n}{pred} \PY{o}{=} \PY{n}{process}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test\PYZus{}samp}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test\PYZus{}samp}\PY{p}{)}
+         \PY{n}{length} \PY{o}{=} \PY{n}{max\PYZus{}scr} \PY{o}{\PYZhy{}} \PY{n}{min\PYZus{}scr}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{k}{assert} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{min\PYZus{}scr} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{midpt}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{p}{(}\PY{l+m+mf}{0.7} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{sample\PYZus{}indices}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Incorrect range (mean \PYZhy{} 3*std) to (mean + 3*std)}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{k}{assert} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{max\PYZus{}scr} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{midpt}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{p}{(}\PY{l+m+mf}{0.7} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{sample\PYZus{}indices}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Incorrect range (mean \PYZhy{} 3*std) to (mean + 3*std)}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{k}{assert} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{length} \PY{o}{\PYZlt{}} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{avg\PYZus{}length}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{p}{(}\PY{l+m+mf}{0.7} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{sample\PYZus{}indices}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Incorrect length of range (mean \PYZhy{} 3*std) to (mean + 3*std)}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{c+c1}{\PYZsh{} Hidden Tests Here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{\PYZsh{} Hidden Tests Here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{c+c1}{\PYZsh{} Hidden Tests Here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{c+c1}{\PYZsh{} Hidden Tests Here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{c+c1}{\PYZsh{} Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{c+c1}{\PYZsh{} Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{c+c1}{\PYZsh{} Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{c+c1}{\PYZsh{} Hidden Tests here}
+         \PY{c+c1}{\PYZsh{}}
+         \PY{c+c1}{\PYZsh{} AUTOGRADER TEST \PYZhy{} DO NOT REMOVE}
+         \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
