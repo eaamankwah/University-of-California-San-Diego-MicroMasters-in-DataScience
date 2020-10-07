@@ -1,0 +1,591 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{2.Logistic-Regression}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{Logistic Regression using
+TensorFlow}\label{logistic-regression-using-tensorflow}
+
+\begin{itemize}
+\item
+  This notebook is adapted from
+  \href{https://github.com/aymericdamien/TensorFlow-Examples/blob/master/notebooks/2_BasicModels/logistic_regression.ipynb}{Aymeric
+  Damian's logistic regression notebook}
+\item
+  Clone the full collection
+  \href{https://github.com/aymericdamien/TensorFlow-Examples}{here}.
+\end{itemize}
+
+    \subsubsection{multi-label logistic
+regression}\label{multi-label-logistic-regression}
+
+Is the next step after linear regression. * Like linear regression,
+there are only an input layer and and output layer. * Unlike linear
+regression, the relation of output to input is not linear. * Also, we
+have ten output nodes, instead of one.
+
+    \href{https://en.wikipedia.org/wiki/Logistic_regression}{Logistic
+regression} refers to a soft-classifier over \(k\) classes based on a
+linear function of the input. We will look at an example where we want
+to classify handwritten digits into one of \(k=10\) classes: \(0-9\)
+
+The logistic regression model works in a similar fashion to a linear
+regression model except that the final sum of the product between the
+weights and dependent variable is passed through a function that
+transforms the unbounded outputs of the linear operation into a
+normalized conditional probability over the \(k\) classes.
+
+    \subsection{MNIST Dataset Overview}\label{mnist-dataset-overview}
+
+This example is using MNIST handwritten digits. The dataset contains
+60,000 examples for training and 10,000 examples for testing. The digits
+have been size-normalized and centered in a fixed-size image (28x28
+pixels) with values from 0 to 1. For simplicity, each image has been
+flattened and converted to a 1-D numpy array of 784 features (28*28).
+
+\begin{figure}
+\centering
+\includegraphics{http://neuralnetworksanddeeplearning.com/images/mnist_100_digits.png}
+\caption{MNIST Dataset}
+\end{figure}
+
+More info: http://yann.lecun.com/exdb/mnist/
+
+    \subsection{The logistic model}\label{the-logistic-model}
+
+We use the logistic model as a classifier which maps each digit image to
+an integer number between 0 and 9 which corresponds to the identity of
+the digit
+
+    The inputs (placeholders) are:
+
+\begin{itemize}
+\tightlist
+\item
+  \(X\) - a 784 dimensional vector.
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  \(y\) - the label corresponding to \(X\). Encoded using 1-hot
+  encoding. I.e. \textbf{0}=(1,0,...0), \textbf{1}=(0,1,0,....,0) etc.
+\end{itemize}
+
+    There are 10 sets of parameters, one for each digit \(j=0,\ldots,9\) : *
+\(W_j\)= a 784 dimensional vector * \(b_j\)= a scalar.
+
+    The logistic funcion defines a distribution over the digits. We predict
+with the digit with the highest probability. \[
+p(y=j | X) = g(s_j)\;\;\mbox{ where }\;\; s_j=W_j \cdot X +b_j \]
+
+    \[\mbox{and  } g(s_j) = \frac{\exp(s_j)}{\sum_{i=0}^9 \exp(s_i)}
+\]is the \href{https://en.wikipedia.org/wiki/softmax_function}{softmax
+function}
+
+    \subsubsection{The cross-entropy cost}\label{the-cross-entropy-cost}
+
+As our model outputs a vector of 10 conditional probabilities we use the
+negative cross-entropy as the cost function:
+\[ Cost \left(\{W_j,b_j\}_{j=0}^9\right)
+=-\frac{1}{N} \sum_{i=1}^N \sum_{j=0}^n y^i_j \log g(s^i_j) \]
+
+    \subsubsection{Data Flow Diagram}\label{data-flow-diagram}
+
+    \subsection{Coding Logistic Regression in
+Tensorflow}\label{coding-logistic-regression-in-tensorflow}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{tensorflow} \PY{k}{as} \PY{n+nn}{tf}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt} 
+        
+        \PY{k+kn}{import} \PY{n+nn}{warnings}
+        \PY{c+c1}{\PYZsh{}\PYZsh{} Tensorflow produces a lot of warnings. We generally want to suppress them. The below code does exactly that. }
+        \PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{tf}\PY{o}{.}\PY{n}{logging}\PY{o}{.}\PY{n}{set\PYZus{}verbosity}\PY{p}{(}\PY{n}{tf}\PY{o}{.}\PY{n}{logging}\PY{o}{.}\PY{n}{ERROR}\PY{p}{)}
+        
+        \PY{n}{rng} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}
+        \PY{n}{logs\PYZus{}path} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{logs/Logistic\PYZus{}regression}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{c+c1}{\PYZsh{} Import MNIST data}
+        \PY{k+kn}{from} \PY{n+nn}{tensorflow}\PY{n+nn}{.}\PY{n+nn}{examples}\PY{n+nn}{.}\PY{n+nn}{tutorials}\PY{n+nn}{.}\PY{n+nn}{mnist} \PY{k}{import} \PY{n}{input\PYZus{}data}
+        \PY{n}{mnist} \PY{o}{=} \PY{n}{input\PYZus{}data}\PY{o}{.}\PY{n}{read\PYZus{}data\PYZus{}sets}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/tmp/data/}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{one\PYZus{}hot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Successfully downloaded train-images-idx3-ubyte.gz 9912422 bytes.
+Extracting /tmp/data/train-images-idx3-ubyte.gz
+Successfully downloaded train-labels-idx1-ubyte.gz 28881 bytes.
+Extracting /tmp/data/train-labels-idx1-ubyte.gz
+Successfully downloaded t10k-images-idx3-ubyte.gz 1648877 bytes.
+Extracting /tmp/data/t10k-images-idx3-ubyte.gz
+Successfully downloaded t10k-labels-idx1-ubyte.gz 4542 bytes.
+Extracting /tmp/data/t10k-labels-idx1-ubyte.gz
+
+    \end{Verbatim}
+
+    \subsubsection{Defining the logistic
+model}\label{defining-the-logistic-model}
+
+    \begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Placeholder1: flattened images of dimension 28*28 = 784}
+\NormalTok{x }\OperatorTok{=}\NormalTok{ tf.placeholder(dtype }\OperatorTok{=}\NormalTok{ tf.float32, shape }\OperatorTok{=}\NormalTok{ [}\VariableTok{None}\NormalTok{, }\DecValTok{784}\NormalTok{], name }\OperatorTok{=} \StringTok{"inputData"}\NormalTok{) }
+\CommentTok{# Placeholder2: one-hot encoded labels for the 10 classes}
+\NormalTok{y }\OperatorTok{=}\NormalTok{ tf.placeholder(dtype }\OperatorTok{=}\NormalTok{ tf.float32, shape }\OperatorTok{=}\NormalTok{ [}\VariableTok{None}\NormalTok{, }\DecValTok{10}\NormalTok{], name }\OperatorTok{=} \StringTok{"actualLabel"}\NormalTok{)}
+
+\NormalTok{W }\OperatorTok{=}\NormalTok{ tf.Variable(initial_value }\OperatorTok{=}\NormalTok{ tf.zeros([}\DecValTok{784}\NormalTok{, }\DecValTok{10}\NormalTok{]), name }\OperatorTok{=} \StringTok{"weight"}\NormalTok{)}
+\NormalTok{b }\OperatorTok{=}\NormalTok{ tf.Variable(initial_value }\OperatorTok{=}\NormalTok{ tf.zeros([}\DecValTok{10}\NormalTok{]), name }\OperatorTok{=} \StringTok{"bias"}\NormalTok{)}
+
+\ControlFlowTok{with}\NormalTok{ tf.name_scope(}\StringTok{'model'}\NormalTok{):}
+\NormalTok{    prediction }\OperatorTok{=}\NormalTok{ tf.nn.softmax(tf.add(b, tf.matmul(x, W))) }
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{itemize}
+\item
+  The operation defined in out model is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{prediction }\OperatorTok{=}\NormalTok{ tf.nn.softmax(tf.add(b, tf.matmul(x, W))) }\CommentTok{# Softmax}
+\end{Highlighting}
+\end{Shaded}
+\item
+  it is a composition of:
+\item
+  \texttt{tf.matmul(x,\ W))} : performs dot product between the input
+  vector \texttt{x} and the weights matrix \texttt{W}, yielding a vector
+  of dimension 10.
+\item
+  \texttt{tf.add(b,\ tf.matmul(x,W))} : returns the tensor sum between
+  the tensors b and the output of the inner computation
+\item
+  \texttt{tf.nn.softmax(A)} : applies the softmax function on each value
+  of the input tensor (default is along the first dimension)
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} Lets run the code we just described}
+        
+        \PY{n}{x} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{placeholder}\PY{p}{(}\PY{n}{dtype} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{float32}\PY{p}{,} \PY{n}{shape} \PY{o}{=} \PY{p}{[}\PY{k+kc}{None}\PY{p}{,} \PY{l+m+mi}{784}\PY{p}{]}\PY{p}{,} \PY{n}{name} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{inputFeatures}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} mnist data image of shape 28*28=784}
+        \PY{n}{y} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{placeholder}\PY{p}{(}\PY{n}{dtype} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{float32}\PY{p}{,} \PY{n}{shape} \PY{o}{=} \PY{p}{[}\PY{k+kc}{None}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,} \PY{n}{name} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{actualLabel}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} 0\PYZhy{}9 digits recognition =\PYZgt{} 10 classes}
+        
+        \PY{n}{W} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{Variable}\PY{p}{(}\PY{n}{initial\PYZus{}value} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{784}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{name} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{weight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{b} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{Variable}\PY{p}{(}\PY{n}{initial\PYZus{}value} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{name} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bias}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{k}{with} \PY{n}{tf}\PY{o}{.}\PY{n}{name\PYZus{}scope}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+            \PY{n}{prediction} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{nn}\PY{o}{.}\PY{n}{softmax}\PY{p}{(}\PY{n}{tf}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{n}{tf}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{W}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} Softmax}
+\end{Verbatim}
+
+
+    \subsubsection{Adding a regularization
+term}\label{adding-a-regularization-term}
+
+One way to reduce over-fitting is to add a \textbf{regularization term}
+to the loss. This term is also referred to as \textbf{weight decay}
+because it pushes the weights towards zero.
+
+    We use an L2 regularizer, given the weight vectors \(W_j\) and the
+biases \(b_j\) the regularization term is
+\[ l2\left(\{W_j,b_j\}_{j=0}^9\right) = \sum_{j=0}^9  \left[\sum_{i=1}^{784} W_{ji}^2 +b_j^2\right] \]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} Parameters}
+        \PY{c+c1}{\PYZsh{}learning\PYZus{}rate = 0.01}
+        \PY{n}{training\PYZus{}epochs} \PY{o}{=} \PY{l+m+mi}{25}
+        \PY{n}{batch\PYZus{}size} \PY{o}{=} \PY{l+m+mi}{100}
+        \PY{n}{display\PYZus{}step} \PY{o}{=} \PY{l+m+mi}{5}
+        \PY{n}{lamb} \PY{o}{=} \PY{l+m+mf}{0.01} \PY{c+c1}{\PYZsh{}This is the hyperparameter that controls the strength of the regularization}
+        
+        \PY{c+c1}{\PYZsh{} Minimize error using cross entropy loss}
+        \PY{c+c1}{\PYZsh{} reduce\PYZus{}mean calculates the mean across dimensions of a tensor}
+        \PY{n}{loss} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{reduce\PYZus{}mean}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{tf}\PY{o}{.}\PY{n}{reduce\PYZus{}sum}\PY{p}{(}\PY{n}{y}\PY{o}{*}\PY{n}{tf}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{prediction}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}  
+                              \PY{o}{+} \PY{n}{lamb} \PY{o}{*} \PY{p}{(}\PY{n}{tf}\PY{o}{.}\PY{n}{nn}\PY{o}{.}\PY{n}{l2\PYZus{}loss}\PY{p}{(}\PY{n}{W}\PY{p}{)} \PY{o}{+} \PY{n}{tf}\PY{o}{.}\PY{n}{nn}\PY{o}{.}\PY{n}{l2\PYZus{}loss}\PY{p}{(}\PY{n}{b}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                             
+        \PY{c+c1}{\PYZsh{} Logging commands}
+        \PY{n}{tf}\PY{o}{.}\PY{n}{summary}\PY{o}{.}\PY{n}{scalar}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{loss}\PY{p}{)}
+        \PY{n}{merged\PYZus{}summary\PYZus{}op} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{summary}\PY{o}{.}\PY{n}{merge\PYZus{}all}\PY{p}{(}\PY{p}{)}
+                                  
+        \PY{k}{with} \PY{n}{tf}\PY{o}{.}\PY{n}{name\PYZus{}scope}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Optimizer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+            \PY{n}{optimizer} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{train}\PY{o}{.}\PY{n}{GradientDescentOptimizer}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{o}{.}\PY{n}{minimize}\PY{p}{(}\PY{n}{loss}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{init} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{global\PYZus{}variables\PYZus{}initializer}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsubsection{Executing the optimization in a
+session}\label{executing-the-optimization-in-a-session}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{} Start training}
+        \PY{n}{sess}\PY{o}{=}\PY{n}{tf}\PY{o}{.}\PY{n}{Session}\PY{p}{(}\PY{p}{)}
+        \PY{n}{sess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{n}{init}\PY{p}{)}
+        
+        \PY{n}{summary\PYZus{}writer} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{summary}\PY{o}{.}\PY{n}{FileWriter}\PY{p}{(}\PY{n}{logs\PYZus{}path} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/logistic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{graph}\PY{o}{=}\PY{n}{tf}\PY{o}{.}\PY{n}{get\PYZus{}default\PYZus{}graph}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{} Training cycle}
+        \PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{training\PYZus{}epochs}\PY{p}{)}\PY{p}{:}
+            \PY{n}{avg\PYZus{}loss} \PY{o}{=} \PY{l+m+mf}{0.}
+            \PY{n}{total\PYZus{}batch} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{mnist}\PY{o}{.}\PY{n}{train}\PY{o}{.}\PY{n}{num\PYZus{}examples}\PY{o}{/}\PY{n}{batch\PYZus{}size}\PY{p}{)} \PY{c+c1}{\PYZsh{} there would be 600 batches}
+        
+            \PY{c+c1}{\PYZsh{} Loop over all batches}
+            \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{total\PYZus{}batch}\PY{p}{)}\PY{p}{:}
+                \PY{n}{batch\PYZus{}xs}\PY{p}{,} \PY{n}{batch\PYZus{}ys} \PY{o}{=} \PY{n}{mnist}\PY{o}{.}\PY{n}{train}\PY{o}{.}\PY{n}{next\PYZus{}batch}\PY{p}{(}\PY{n}{batch\PYZus{}size}\PY{p}{)}
+        
+                \PY{c+c1}{\PYZsh{} Fit training using batch data}
+                \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{c} \PY{o}{=} \PY{n}{sess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{p}{[}\PY{n}{optimizer}\PY{p}{,} \PY{n}{loss}\PY{p}{]}\PY{p}{,} \PY{n}{feed\PYZus{}dict}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{x}\PY{p}{:} \PY{n}{batch\PYZus{}xs}\PY{p}{,}
+                                                              \PY{n}{y}\PY{p}{:} \PY{n}{batch\PYZus{}ys}\PY{p}{\PYZcb{}}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} Compute average loss}
+                \PY{n}{avg\PYZus{}loss} \PY{o}{+}\PY{o}{=} \PY{n}{c} \PY{o}{/} \PY{n}{total\PYZus{}batch}
+        
+            \PY{c+c1}{\PYZsh{} Display logs per epoch step}
+            \PY{k}{if} \PY{p}{(}\PY{n}{epoch}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{\PYZpc{}} \PY{n}{display\PYZus{}step} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Epoch:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZpc{}04d}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{epoch}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loss=}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}:.9f\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{avg\PYZus{}loss}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Optimization Finished!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch: 0005 loss= 0.562108982
+Epoch: 0010 loss= 0.562087742
+Epoch: 0015 loss= 0.561949274
+Epoch: 0020 loss= 0.561928227
+Epoch: 0025 loss= 0.561720640
+Optimization Finished!
+
+    \end{Verbatim}
+
+    \paragraph{Optional excercise}\label{optional-excercise}
+
+\begin{itemize}
+\tightlist
+\item
+  Add to the log print line the two components of the loss: the entropy
+  loss and the regularization term.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{\PYZsh{} Calculate test set accuracy, i.e. number of mistakes final model makes on test set}
+        \PY{n}{correct\PYZus{}prediction} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{equal}\PY{p}{(}\PY{n}{tf}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{prediction}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{tf}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Calculate accuracy for 3000 examples}
+        \PY{n}{accuracy} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{reduce\PYZus{}mean}\PY{p}{(}\PY{n}{tf}\PY{o}{.}\PY{n}{cast}\PY{p}{(}\PY{n}{correct\PYZus{}prediction}\PY{p}{,} \PY{n}{tf}\PY{o}{.}\PY{n}{float32}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{accuracy}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{\PYZob{}}\PY{n}{x}\PY{p}{:} \PY{n}{mnist}\PY{o}{.}\PY{n}{test}\PY{o}{.}\PY{n}{images}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{3000}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{p}{:} \PY{n}{mnist}\PY{o}{.}\PY{n}{test}\PY{o}{.}\PY{n}{labels}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{3000}\PY{p}{]}\PY{p}{\PYZcb{}}\PY{p}{,}\PY{n}{session}\PY{o}{=}\PY{n}{sess}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Accuracy: 0.879
+
+    \end{Verbatim}
+
+    \subsection{Using Tensorboard to View Graph
+Structure}\label{using-tensorboard-to-view-graph-structure}
+
+    We can have a look at the computational graph that we have just defined
+on Tensorboard. We have installed a jupyter extension that makes
+connecting to Tensorboard very simple. To do this,
+
+In your Jupyter directory tree view, select the log directory for lesson
+1 and click the \textbf{Tensorboard} button as shown in the picture. 
+
+    Next, go to the \textbf{Running} tab, and choose the Tensorboard
+instance corresponding to the correct log directory as shown in the
+screenshot. 
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
